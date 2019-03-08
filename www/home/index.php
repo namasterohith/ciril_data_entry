@@ -27,6 +27,8 @@
     <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="../vendor/noui/nouislider.min.css">
     <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="../vendor/DataTables/datatables.min.css">
+    <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="../css/util.css">
     <link rel="stylesheet" type="text/css" href="../css/main.css">
     <!--===============================================================================================-->
@@ -43,9 +45,21 @@
         </a>
     </div>
 
-    <div class="container-home100">
+
+
+    <div class="container-home100"> 
+
+        <div class="tabs-container">
+            <ul class="nav nav-tabs">
+                <li class="active" data-tab="home100-form"><a href="#">Add New</a></li>
+                <li data-tab="limiter-table100"><a href="#">View Data</a></li>
+            </ul>
+        </div>
         <div class="wrap-home100">
-            <form class="home100-form validate-form" id="data-form" enctype="multipart/form-data" action="" method="POST">
+
+            <!-- FORM -->
+
+            <form class="home100-form validate-form animated" id="data-form" enctype="multipart/form-data" action="" method="POST">
                 <span class="home100-form-title">
 					Enter Details
                 </span>
@@ -76,6 +90,11 @@
                             <input class="input100" type="number" name="quantity" placeholder="Enter The Quantity">
                         </div>
 
+                        <div class="wrap-input100 validate-input bg1" data-validate="Please Type The Pack Size">
+                            <span class="label-input100">PACK SIZE</span>
+                            <input class="input100" type="number" name="pack_size" placeholder="Enter The Pack Size">
+                        </div>
+
                         <div class="wrap-input100 validate-input bg1" data-validate="Please Type The Expiry">
                             <span class="label-input100">EXPIRY</span>
                             <input class="input100" type="text" name="expiry" autocomplete="none" placeholder="Enter The Expiry">
@@ -91,24 +110,17 @@
                             <input class="input100" type="text" name="supplier_code" placeholder="Enter The Supplier Code">
                         </div>
 
-                        <div class="wrap-input100 validate-input bg1" data-validate="Attach CSV">
-                            <input type="checkbox" name="csv_flag" value="Yes" placeholder="Attach CSV">
-                            <span class="label-input100">OR UPLOAD A CSV FILE</span>
-                            <div class="attach-container">
-                                <span class="attach-title"></span>
-                                <button class="btn btn-info attach-btn" type="button">
-                                    ATTACH
-                                </button>
-                                <input class="input100 dis-none" type="file" accept=".csv" name="csv_list" placeholder="Attach CSV">
-                            </div>
+                        <div class="wrap-input100 validate-input bg1" data-validate="Please Type The Manufacturer">
+                            <span class="label-input100">MANUFACTURER</span>
+                            <input class="input100" type="text" name="manufacturer" placeholder="Enter The Manufacturer">
                         </div>
 
                     </div>
                     <div class="col-md-6">
 
-                        <div class="wrap-input100 validate-input bg1" data-validate="Please Type The Cost">
-                            <span class="label-input100">COST</span>
-                            <input class="input100" type="number" name="cost" placeholder="Enter The Cost">
+                        <div class="wrap-input100 validate-input bg1" data-validate="Please Type The Unit Price">
+                            <span class="label-input100">UNIT PRICE</span>
+                            <input class="input100" type="number" name="unit_price" placeholder="Enter Unit Price">
                         </div>
 
                         <div class="wrap-input100 validate-input bg1" data-validate="Please Type The Date">
@@ -136,6 +148,23 @@
                             <input class="input100" type="number" name="transaction_number" placeholder="Enter The Transaction Number">
                         </div>
 
+                        <div class="wrap-input100 validate-input bg1" data-validate="Please Type The File Number">
+                            <span class="label-input100">FILE NUMBER</span>
+                            <input class="input100" type="number" name="file_number" placeholder="Enter The File Number">
+                        </div>
+
+                        <div class="wrap-input100 validate-input bg1" data-validate="Attach CSV">
+                            <input type="checkbox" name="csv_flag" value="Yes" placeholder="Attach CSV">
+                            <span class="label-input100">OR UPLOAD A CSV FILE</span>
+                            <div class="attach-container">
+                                <span class="attach-title"></span>
+                                <button class="btn btn-info attach-btn" type="button">
+                                    ATTACH
+                                </button>
+                                <input class="input100 dis-none" type="file" accept=".csv" name="csv_list" placeholder="Attach CSV">
+                            </div>
+                        </div>
+
                     </div>
                 </div>
 
@@ -146,6 +175,81 @@
                 </div>
 
             </form>
+         
+            <!-- TABLE -->
+            
+            <div class="limiter-table100 animated">
+                <span class="home100-form-title">
+					Find Details
+                </span>
+
+                <div id="fetch-error-msg"  class="alert alert-danger text-center dis-none">
+                    <strong>Error!</strong> Couldn't load data.
+                </div>
+                <div id="fetch-null-msg"  class="alert alert-danger text-center dis-none">
+                    <strong>Oops!</strong> No data found.
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="wrap-input100 bg1" >
+                            <span class="label-input100">DATE RANGE</span>
+                            <input class="input100" type="text" name="view_date_range" autocomplete="none" placeholder="Please Select The Date Range">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="wrap-input100 bg1" >
+                            <span class="label-input100">BARCODE</span>
+                            <input class="input100" type="text" name="view_barcode" placeholder="Enter The Barcode">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="wrap-input100 bg1" >
+                            <span class="label-input100">CREATED BY</span>
+                            <input class="input100" type="text" name="view_creator" placeholder="Enter The Name">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-right float-right justify-content-start m-b-20">
+                    <button class="home100-form-btn text-right float-right search-btn" type="button">
+                        Search
+                    </button>
+                </div>
+
+                <div class="container-table100 dis-none animated">
+                    <div class="wrap-table100">
+                        <div class="table100">
+                            <table class="table" id="view-table">
+                                <thead>
+                                    <tr class="table100-head">
+                                        <th class="column1">SL. NO.</th>
+                                        <th class="column2">BARCODE</th>
+                                        <th class="column3">SUPPLIER CODE</th>
+                                        <th class="column4">BATCH</th>
+                                        <th class="column5">EXPIRY</th>
+                                        <th class="column6">UNIT PRICE</th>
+                                        <th class="column7">QUANTITY</th>
+                                        <th class="column8">PACK SIZE</th>
+                                        <th class="column9">INVOICE AMOUNT</th>
+                                        <th class="column10">INVOICE DATE</th>
+                                        <th class="column11">INVOICE NUMBER</th>
+                                        <th class="column12">TRANSCATION NUMBER</th>
+                                        <th class="column13">FILE NUMBER</th>
+                                        <th class="column14">SUPPLIER</th>
+                                        <th class="column15">MANUFACTURER</th>
+                                        <th class="column16">DATE</th>
+                                        <th class="column17">CREATED BY</th>
+                                    </tr>
+                                </thead>
+                                <tbody>  
+                                                                       
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -166,6 +270,8 @@
     <!--===============================================================================================-->
     <script src="../vendor/noui/nouislider.min.js"></script>
     <!--===============================================================================================-->
+    <script src="../vendor/DataTables/datatables.min.js"></script>
+    <!--===============================================================================================-->
     <script src="../js/main.js"></script>
     <script>
 
@@ -173,8 +279,8 @@
 
             function insertData($db, $data){
                 
-                $tsql= "INSERT INTO dbo.cirsup (Barcode, quantity, Batch, Expiry, Cost, Supplier, Scode, creator_no) VALUES (?,?,?,?,?,?,?,?);";
-                $params = array($data['barcode'], $data['quantity'], $data['batch'], $data['expiry'], $data['cost'], $data['supplier'], $data['supplier_code'], $_SESSION['login_user']);
+                $tsql= "INSERT INTO dbo.cirsup (Barcode, Scode, Batch, Expiry, [unit price], quantity, [Pack size], [invoice amount], [invoice date], [invoice number], Trans_no, [File number], Supplier, manufacturer, Date, creator_no) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+                $params = array($data['barcode'], $data['supplier_code'], $data['batch'], $data['expiry'], $data['unit_price'], $data['quantity'], $data['pack_size'], $data['invoice_amount'], $data['invoice_date'], $data['invoice_number'], $data['transaction_number'], $data['file_number'], $data['supplier'], $data['manufacturer'], $data['date'], $_SESSION['login_user']);
                 $getResults = sqlsrv_query($db, $tsql, $params);
                 $rowsAffected = sqlsrv_rows_affected($getResults);
                 if ($getResults == FALSE or $rowsAffected == FALSE){
@@ -185,26 +291,6 @@
                 $returnArray = array('table_1' => $rowsAffected);
                 sqlsrv_free_stmt($getResults);
                 sqlsrv_free_stmt($rowsAffected);
-
-                if($rowsAffected){
-                    
-                    $tsql2= "INSERT INTO dbo.cirsup2 (Date, [invoice date], [invoice amount], Trans_no, [invoice number], creator_no) VALUES (?,?,?,?,?,?);";
-                    $params2 = array($data['date'], $data['invoice_date'], $data['invoice_amount'], $data['transaction_number'], $data['invoice_number'], $_SESSION['login_user']);
-                    $getResults2 = sqlsrv_query($db, $tsql2, $params2);
-                    $rowsAffected2 = sqlsrv_rows_affected($getResults2);
-                    if ($getResults2 == FALSE or $rowsAffected2 == FALSE){
-                        $returnArray['table_2'] = 0;
-                    }
-
-                    $returnArray['table_2'] = $rowsAffected2;
-                    sqlsrv_free_stmt($getResults2);
-                    sqlsrv_free_stmt($rowsAffected2);
-                
-                }
-                else {
-                    $returnArray['table_1']  = 0;
-                    $returnArray['table_2']  = 0;
-                }
 
                 return $returnArray;
             }
@@ -218,7 +304,7 @@
 
                 if($haveFile){
 
-                    $table_cols = ["barcode","quantity","batch","expiry","cost","date","invoice_date","invoice_number","invoice_amount","transaction_number","supplier","supplier_code"];
+                    $table_cols = ["serial_no","barcode","supplier_code","batch","expiry","unit_price","quantity","pack_size","invoice_amount","invoice_date","invoice_number","transaction_number","file_number","supplier","manufacturer","date","supplier"];
                     $csvFile = file($_FILES['csv_list']['tmp_name']);
                     $proxy_post = [];
                     foreach ($csvFile as $key=>$line) {
@@ -231,17 +317,14 @@
                     foreach ($proxy_post as $item_no=>$row) {
                         $rowsCountTrack = insertData($db, $row);
                         $tableOneTrack = $rowsCountTrack['table_1'];
-                        $tableTwoTrack = $rowsCountTrack['table_2'];
-                        if($tableOneTrack != 1 && $tableTwoTrack != 1){
+                        if($tableOneTrack != 1){
                             array_push($fileTracker,$item_no);
                         } 
                     }
                     if(count($fileTracker) > 0){                        
                         $tableOne = 0;
-                        $tableTwo = 0;
                     }else{                     
                         $tableOne = 1;
-                        $tableTwo = 1;
                     }
 
 
@@ -257,14 +340,12 @@
 
                     $rowsCount = insertData($db, $post_data);
                     $tableOne = $rowsCount['table_1'];
-                    $tableTwo = $rowsCount['table_2'];
                 }
             } 
         ?>
         var post = '<?php echo $post; ?>';
         if(Boolean(post)){
             var tableOneCount = '<?php echo $tableOne; ?>';
-            var tableTwoCount = '<?php echo $tableTwo; ?>';
             var haveFile = '<?php echo $haveFile; ?>';
             $("#data-error-msg").hide();
             $("#data-success-msg").hide();
@@ -274,7 +355,7 @@
                 fileTracker.map(item => errorMessage = errorMessage + ` ${item}.` );
                 $("#data-error-msg").html(errorMessage);
             }
-            if(Number(tableOneCount) && Number(tableTwoCount)){
+            if(Number(tableOneCount)){
                 $("#data-success-msg").fadeIn( e => {
                     $("#data-form input").val(""); 
                 });

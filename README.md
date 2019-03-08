@@ -1,1 +1,1 @@
-# ciril_data_entry
+# DATA ENTRY ADMIN PANEL FOR CIRIL's PROJECT
