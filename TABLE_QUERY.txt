@@ -1,0 +1,39 @@
+USE [ISTKDB]
+GO
+
+/****** Object:  Table [dbo].[cirsup]    Script Date: 08-03-2019 05:29:39 PM ******/
+DROP TABLE [dbo].[cirsup]
+GO
+
+/****** Object:  Table [dbo].[cirsup]    Script Date: 08-03-2019 05:29:39 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[cirsup](
+	[Recnum] [int] IDENTITY(1,1) NOT NULL,
+	[Barcode] [char](30) NOT NULL,
+	[Scode] [char](50) NOT NULL,
+	[Batch] [char](20) NOT NULL,
+	[Expiry] [datetime] NOT NULL,
+	[unit price] [numeric](10, 4) NOT NULL,
+	[quantity] [numeric](18, 0) NOT NULL,
+	[Pack size] [numeric](18, 0) NOT NULL,
+	[invoice amount] [numeric](14, 4) NOT NULL,
+	[invoice date] [datetime] NOT NULL,
+	[invoice number] [numeric](18, 0) NOT NULL,
+	[Trans_no] [numeric](12, 0) NOT NULL,
+	[File number] [numeric](18, 0) NOT NULL,
+	[Supplier] [char](10) NOT NULL,
+	[manufacturer] [char](30) NOT NULL,
+	[Date] [datetime] NOT NULL,
+	[creator_no] [char](30) NOT NULL,
+ CONSTRAINT [IX_cirsup] UNIQUE NONCLUSTERED 
+(
+	[Barcode] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
