@@ -50,6 +50,7 @@ $(document).ready(function() {
                 format: 'YYYY-MM-DD'
             }
         });
+        $('input.input100').val('');
     }
 
     //  Tabs
@@ -142,21 +143,44 @@ $(document).ready(function() {
         }
     });
 
+
+    $('.reset-btn').click((e) => {
+        $('input.input100.search').val('');
+        $("#input-error-msg").hide();
+    });
+    $('.reset-btn').click();
+
     $('.container-table100').css('visibility', 'hidden');
     $('.search-btn').click((e) => {
+        hideMsgs();
         $('.container-table100').css('visibility', 'hidden');
-        var get_data = {
-            from_date: $('input[name="view_date_range"].input100').val().split(' - ')[0],
-            to_date: $('input[name="view_date_range"].input100').val().split(' - ')[1],
-            barcode: $('input[name="view_barcode"].input100').val(),
-            created_by: $('input[name="view_creator"].input100').val()
+        let view_date_range = $('input[name="view_date_range"].input100').val();
+        let view_barcode = $('input[name="view_barcode"].input100').val();
+        let view_creator = $('input[name="view_creator"].input100').val();
+        if (view_date_range || view_barcode || view_creator) {
+            $("#fetch-info-msg").fadeIn();
+            var get_data = {
+                from_date: view_date_range.split(' - ')[0],
+                to_date: view_date_range.split(' - ')[1],
+                barcode: view_barcode,
+                created_by: view_creator
+            }
+            getData(get_data);
+        } else {
+            $("#input-error-msg").fadeIn();
         }
-        getData(get_data);
     });
+
+    function hideMsgs() {
+        $("#fetch-success-msg").hide();
+        $("#input-error-msg").hide();
+        $("#fetch-null-msg").hide();
+        $("#fetch-error-msg").hide();
+    }
 
     function getData(get_data) {
 
-        const FETCH_TIMEOUT = 50000;
+        const FETCH_TIMEOUT = 60000;
         let didTimeOut = false;
         let url = `fetch.php?from_date=${get_data.from_date || ''}&to_date=${get_data.to_date || ''}&barcode=${get_data.barcode || ''}&created_by=${get_data.created_by || ''}`;
 
@@ -174,9 +198,8 @@ $(document).ready(function() {
                             resolve(response);
                             response.json()
                                 .then(function(response_data) {
+                                    $("#fetch-info-msg").hide();
                                     if (response_data.status == "200") {
-                                        $("#fetch-null-msg").hide();
-                                        $("#fetch-error-msg").hide();
                                         if (response_data.data) {
                                             let data_array = response_data.data;
                                             data_array.map((el, index) => {
@@ -185,6 +208,8 @@ $(document).ready(function() {
                                             });
                                             laodTable(data_array);
                                             $('.container-table100').css('visibility', 'visible').addClass('slideInUp');
+                                            $("#fetch-success-msg .count").text(`Showing latest ${data_array.length} result${(data_array.length>1 ? 's' : '' )}.`);
+                                            $("#fetch-success-msg").fadeIn().fadeOut(5000);
                                         } else
                                             $("#fetch-null-msg").fadeIn();
                                     } else {
@@ -202,12 +227,16 @@ $(document).ready(function() {
                         if (didTimeOut) return;
                         // Reject with error
                         reject(err);
+                        $("#fetch-info-msg").hide();
+                        $("#fetch-error-msg").fadeIn();
                     });
             })
             .then(function() {})
             .catch(function(err) {
                 // Error: response error, request timeout or runtime error
                 console.log('promise error! ', err);
+                $("#fetch-info-msg").hide();
+                $("#fetch-error-msg").fadeIn();
             });
 
     }

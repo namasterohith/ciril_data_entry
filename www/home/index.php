@@ -183,8 +183,17 @@
 					Find Details
                 </span>
 
+                <div id="fetch-info-msg"  class="alert alert-info text-center dis-none">
+                    <strong>Searching</strong>...
+                </div>
+                <div id="fetch-success-msg"  class="alert alert-success text-center dis-none">
+                    <strong>Success!</strong> <span class="count">Showing latest 1000 results.</span>
+                </div>
                 <div id="fetch-error-msg"  class="alert alert-danger text-center dis-none">
                     <strong>Error!</strong> Couldn't load data.
+                </div>
+                <div id="input-error-msg"  class="alert alert-danger text-center dis-none">
+                    <strong>Oops!</strong> Please enter inputs to search.
                 </div>
                 <div id="fetch-null-msg"  class="alert alert-danger text-center dis-none">
                     <strong>Oops!</strong> No data found.
@@ -194,19 +203,19 @@
                     <div class="col-md-4">
                         <div class="wrap-input100 bg1" >
                             <span class="label-input100">DATE RANGE</span>
-                            <input class="input100" type="text" name="view_date_range" autocomplete="none" placeholder="Please Select The Date Range">
+                            <input class="input100 search" type="text" name="view_date_range" autocomplete="none" placeholder="Please Select The Date Range">
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="wrap-input100 bg1" >
                             <span class="label-input100">BARCODE</span>
-                            <input class="input100" type="text" name="view_barcode" placeholder="Enter The Barcode">
+                            <input class="input100 search" type="text" name="view_barcode" placeholder="Enter The Barcode">
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="wrap-input100 bg1" >
                             <span class="label-input100">CREATED BY</span>
-                            <input class="input100" type="text" name="view_creator" placeholder="Enter The Name">
+                            <input class="input100 search" type="text" name="view_creator" placeholder="Enter The Name">
                         </div>
                     </div>
                 </div>
@@ -214,6 +223,9 @@
                 <div class="text-right float-right justify-content-start m-b-20">
                     <button class="home100-form-btn text-right float-right search-btn" type="button">
                         Search
+                    </button>
+                    <button class="home100-form-btn text-right float-right reset-btn" type="button">
+                        Reset
                     </button>
                 </div>
 
